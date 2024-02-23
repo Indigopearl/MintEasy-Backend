@@ -1,0 +1,71 @@
+name: Django CI
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_DB: yourdbname
+          POSTGRES_USER: youruser
+          POSTGRES_PASSWORD: yourpassword
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: check postgresservicestatus
+      run: ps aux | grep postgres    
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run migrations
+      env:
+        DATABASE_URL: postgres://youruser:yourpassword@127.0.0.1:5432/yourdbname
+        DB_NAME: yourdbname
+        DB_USER: youruser
+        DB_PASSWORD: yourpassword
+        DB_PORT: 5432
+        DB_HOST: localhost
+        SECRETKEY: ${{ secrets.SECRETKEY || 'default_secret_key' }}
+        EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER || 'default_email_host_user' }}
+        DEFAULT_FROM_EMAIL: ${{ secrets.DEFAULT_FROM_EMAIL || 'default_default_from_email'  }}
+        SERVER_EMAIL: ${{ secrets.SERVER_EMAIL || 'default_server_email'  }}
+              
+        
+      run: |
+        python manage.py migrate
+       
+       
+
+    - name: Run tests
+      env:
+        DATABASE_URL: postgres://youruser:yourpassword@127.0.0.1:5432/yourdbname
+        DB_NAME: yourdbname
+        DB_USER: youruser
+        DB_PASSWORD: yourpassword
+        DB_PORT: 5432
+        DB_HOST: localhost
+      run: |
+        python manage.py test
+   
+
+
+
