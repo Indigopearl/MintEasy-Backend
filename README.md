@@ -1,6 +1,6 @@
 # **MintEasy-Backend Installation Guide (Local Machine - Backend Only)**
 
-**Important Note:** This guide covers the installation of the **MintEasy-Backend** project on a **local machine**. It provides the necessary steps to run the backend functionality independently. Please be aware that this guide **does not** include installation instructions for the frontend or deployment on a server.
+**Important Note:** This guide covers the installation of the **MintEasy-Backend** project on a **local machine**. It provides the necessary steps to run the backend functionality independently. Please be aware that this guide **does not** include installation instructions for the frontend or deployment to a server.
 
 **Prerequisites:**
 
@@ -12,11 +12,13 @@
 
 ## Project Setup
 
-### Clone the Project
+### Clone the Repository
 
 ```bash
-git clone <project_repository_url>
+git clone https://github.com/your-github-username/mint_easy_backend.git
 ```
+
+Replace your-github-username with your actual GitHub username and the repository URL if different.
 
 ### Update the Project
 
@@ -115,6 +117,8 @@ After running this command, you should see a confirmation message.
 ```bash
 python manage.py makemigrations
 ```
+
+and
 
 ```bash
 python manage.py migrate
