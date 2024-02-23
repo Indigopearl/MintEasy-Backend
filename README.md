@@ -1,13 +1,13 @@
-# Smart_Invest
+# **MintEasy-Backend Installation Guide (Local Machine - Backend Only)**
 
-# This project only runs with the correct settings and access codes and passwords.
+**Important Note:** This guide covers the installation of the **MintEasy-Backend** project on a **local machine**. It provides the necessary steps to run the backend functionality independently. Please be aware that this guide **does not** include installation instructions for the frontend or deployment on a server.
 
-## updates:
-3.1.2021:
+**Prerequisites:**
 
-- set up the "password_reset_key_message.txt" file in the root template, removed local template  folder from Users app
-- fix the custom reset mst going to front end
-- delete signal.py and its import in app.py
+* Python 3.9
+* Git
+* PostgreSQL
+
 ---
 
 ## Project Setup
@@ -28,7 +28,7 @@ git pull
 
 ## Virtual Environment
 
-### Create Virtual Environment
+### Create Virtual Environment in our Project Directory
 
 ```bash
 python -m venv .venv
@@ -50,26 +50,42 @@ pip install -r requirements.txt
 
 ---
 
-## Database Configuration
+## .venv Configuration
 
 * Create a .env file in the project directory (where manage.py is located).
 * Add the following configuration to .env:
 
 ```bash
-# PostgreSQL Configuration
+#Django
 
-DB_NAME=projectx
+DJANGO_SECRET_KEY = '[your_Django_secret_key]'
+
+# postgresql
+
+DB_NAME=[your_database_name]
 DB_USER=[your_database_username]
 DB_PASSWORD=[your_database_password]
 DB_HOST=localhost
 DB_PORT=5432
+
+# email confirmation
+
+EMAIL_HOST = '[your_email_host]'
+EMAIL_HOST_PASSWORD = '[your_email_host_password]'
+EMAIL_HOST_USER = '[your_email_host_user]'
+DEFAULT_FROM_EMAIL = '[your_email_adrress]'
+SERVER_EMAIL = '[your_server_email]'
+
+# twelvedata API
+
+API_KEY = '[your_api_key]'
+
 ```
 
 ---
 
 ## Database Setup
 
-* Open a terminal window.
 * Run the following command to access the PostgreSQL command line client as the postgres user:
 
 ```bash
@@ -78,9 +94,7 @@ sudo -u postgres psql
 
 * Once you are in the PostgreSQL command line client, you should see a prompt that looks like this:
 
-```bash
-postgres=#
-```
+`postgres=#`
 
 * Now, you can create the projectx database by entering the following SQL command:
 
@@ -100,6 +114,9 @@ After running this command, you should see a confirmation message.
 
 ```bash
 python manage.py makemigrations
+```
+
+```bash
 python manage.py migrate
 ```
 
